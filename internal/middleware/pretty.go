@@ -23,7 +23,9 @@ func JsonIndenter(c *gin.Context) {
 	c.Next()
 	old := bw.buf.String()
 	obj := make(map[string]any)
-	json.Unmarshal([]byte(old), &obj)
+	if err := json.Unmarshal([]byte(old), &obj); err != nil {
+		c.Abort()
+	}
 	new, err := json.MarshalIndent(obj, "", "    ")
 	if err != nil {
 		c.Abort()
