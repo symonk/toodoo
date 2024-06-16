@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"path/filepath"
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/symonk/toodoo/cmd/server"
+	"github.com/symonk/toodoo/internal/config"
 	"github.com/symonk/toodoo/internal/db"
 	"github.com/symonk/toodoo/internal/logging"
 	"github.com/testcontainers/testcontainers-go"
@@ -19,9 +19,17 @@ import (
 	"github.com/testcontainers/testcontainers-go/wait"
 )
 
-// Manage a postgres testcontainer for integration testing against
-// a real database.
-func TestMain(m *testing.M) {
+type TasksTestSuite struct {
+	suite.Suite
+	container *postgres.PostgresContainer
+	cfg       *config.Config
+}
+
+func TestTasksTestSuite(t *testing.T) {
+	suite.Run(t, new(TasksTestSuite))
+}
+
+func (t *TasksTestSuite) SetupSuite() {
 	ctx := context.Background()
 	pgres, err := postgres.RunContainer(
 		ctx,
@@ -37,40 +45,44 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		panic(fmt.Errorf("unable to start postgres test container %s", err.Error()))
 	}
-	defer func() {
-		if err := pgres.Terminate(ctx); err != nil {
-			panic("could not stop the pgres container after tests!")
-		}
-	}()
-	connStr, err := pgres.ConnectionString(ctx, "sslmode=disable")
+	t.container = pgres
+	connStr, err := t.container.ConnectionString(ctx, "sslmode=disable")
 	if err != nil {
 		panic(fmt.Errorf("err with connection string %s", err.Error()))
 	}
 	db.Init(connStr)
 	logging.Init()
-	os.Exit(m.Run())
 }
 
-func TestFetchAllTasksSuccess(t *testing.T) {
+func (t *TasksTestSuite) TeardownSuite() {
+	ctx := context.Background()
+	defer func() {
+		if err := t.container.Terminate(ctx); err != nil {
+			panic("could not stop the pgres container after tests!")
+		}
+	}()
+}
+
+func (suite *TasksTestSuite) TestFetchAllTasksSuccess() {
 	router := server.NewRouter()
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/v1/task", nil)
 	router.ServeHTTP(recorder, request)
-	assert.Equal(t, 200, recorder.Code)
+	suite.Equal(200, recorder.Code)
 }
 
-func TestFetchASingleTask(t *testing.T) {
+func (suite *TasksTestSuite) TestFetchASingleTask() {
 	router := server.NewRouter()
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/v1/task/1", nil)
 	router.ServeHTTP(recorder, request)
-	assert.Equal(t, 200, recorder.Code)
+	suite.Equal(200, recorder.Code)
 }
 
-func TestFetchWithInvalidTaskID(t *testing.T) {
+func (suite *TasksTestSuite) TestFetchWithInvalidTaskID() {
 	router := server.NewRouter()
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/v1/task/1337", nil)
 	router.ServeHTTP(recorder, request)
-	assert.Equal(t, 500, recorder.Code)
+	suite.Equal(500, recorder.Code)
 }
