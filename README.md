@@ -7,8 +7,14 @@
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/symonk/toodoo/blob/master/LICENSE)
 
 
-# toodoo
-A lightweight task manager backend
+> [!NOTE]
+> Only the `toodoo` backend is currently in development, but ways off.
+> The frontend will follow once the backend is stable
+
+# Toodoo
+-----
+
+`toodoo` is the backend API for a task management system written in `go` (backend) and `nextjs` (frontend)
 
 -----
 
