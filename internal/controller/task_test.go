@@ -9,6 +9,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/spf13/viper"
 	"github.com/stretchr/testify/suite"
 	"github.com/symonk/toodoo/cmd/server"
 	"github.com/symonk/toodoo/internal/config"
@@ -22,7 +23,7 @@ import (
 type TasksTestSuite struct {
 	suite.Suite
 	container *postgres.PostgresContainer
-	cfg       *config.Config
+	cfg       *viper.Viper
 }
 
 func TestTasksTestSuite(t *testing.T) {
