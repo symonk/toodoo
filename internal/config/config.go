@@ -2,8 +2,6 @@ package config
 
 import (
 	"fmt"
-	"os"
-	"path/filepath"
 
 	"github.com/spf13/viper"
 )
@@ -15,14 +13,14 @@ var config *viper.Viper
 func Init(environment string) {
 	config = viper.New()
 	config.SetConfigType("yaml")
-	base, _ := os.Executable()
-	dir := filepath.Dir(base) + "/internal/config/"
-	config.AddConfigPath(dir)
-	config.SetConfigFile("dev")
+	config.AddConfigPath("internal/config/")
+	config.SetConfigName(environment)
 	if err := config.ReadInConfig(); err != nil {
-		panic(fmt.Errorf("unable to load the configuration for environment %s, %s", environment, err.Error()))
+		panic(fmt.Errorf("config file error for env: %s, %w", environment, err))
 	}
-	config.MergeConfigMap(config.AllSettings())
+	if err := config.MergeConfigMap(config.AllSettings()); err != nil {
+		panic("unable to merge config")
+	}
 }
 
 func GetConfig() *viper.Viper {
