@@ -12,7 +12,7 @@ type TaskHandler struct {
 // @Description Retrieves all the tasks
 // @Tags tasks
 // @Produce json
-// @Success 200 {object} models.Task
+// @Success 200 {object} model.Task
 // @Router /tasks/ [get]
 func (t TaskHandler) View(c *gin.Context) {
 	task := make(map[string]string)

@@ -1,0 +1,20 @@
+definitions:
+  model.Task:
+    type: object
+info:
+  contact: {}
+paths:
+  /tasks/:
+    get:
+      description: Retrieves all the tasks
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Task'
+      summary: Fetch all tasks
+      tags:
+      - tasks
+swagger: "2.0"

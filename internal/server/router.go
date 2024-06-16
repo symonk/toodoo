@@ -3,6 +3,9 @@ package server
 import (
 	"github.com/gin-gonic/gin"
 	sloggin "github.com/samber/slog-gin"
+	swaggerFiles "github.com/swaggo/files"     // swagger embed files
+	ginSwagger "github.com/swaggo/gin-swagger" // gin-swagger middleware
+	docs "github.com/symonk/toodoo/docs"
 	"github.com/symonk/toodoo/internal/controller"
 	"github.com/symonk/toodoo/internal/logging"
 )
@@ -23,5 +26,8 @@ func NewRouter() *gin.Engine {
 	apiV1 := router.Group("/api/v1")
 	apiV1.GET("/task", taskHandler.View)
 
+	// Swagger
+	docs.SwaggerInfo.BasePath = "/api/v1"
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	return router
 }
