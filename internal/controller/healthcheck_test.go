@@ -10,6 +10,7 @@ import (
 )
 
 func TestHealtchCheckStatus(t *testing.T) {
+	t.Parallel()
 	r := server.NewRouter()
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/healthcheck", nil)
