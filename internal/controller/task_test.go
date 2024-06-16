@@ -52,6 +52,7 @@ func (t *TasksTestSuite) SetupSuite() {
 	}
 	db.Init(connStr)
 	logging.Init()
+	t.cfg = config.GetConfig()
 }
 
 func (t *TasksTestSuite) TeardownSuite() {
