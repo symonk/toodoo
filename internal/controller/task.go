@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -27,9 +28,9 @@ func (t TaskHandler) View(c *gin.Context) {
 		// TODO: standardize and improve errors in general etc.
 		// Do not propagate internal errors back to clients;
 		// Doing this for development only for now;
-		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	}
-	c.JSON(200, tasks)
+	c.JSON(http.StatusOK, tasks)
 }
 
 // @BasePage /api/v1
@@ -45,11 +46,11 @@ func (t TaskHandler) ViewByID(c *gin.Context) {
 	id := c.Param("id")
 	asInt, err := strconv.Atoi(id)
 	if err != nil {
-		c.AbortWithStatusJSON(400, "id must be a valid integer")
+		c.AbortWithStatusJSON(http.StatusBadRequest, "id must be a valid integer")
 	}
 	task, err := taskModel.RetrieveTaskByID(c.Request.Context(), asInt)
 	if err != nil {
-		c.AbortWithStatusJSON(500, gin.H{"error": err.Error()})
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 	}
-	c.JSON(200, task)
+	c.JSON(http.StatusOK, task)
 }

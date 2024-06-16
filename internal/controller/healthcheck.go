@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -13,7 +14,7 @@ type HealthCheckHandler struct {
 
 func (h HealthCheckHandler) Status(c *gin.Context) {
 	since := time.Since(started)
-	c.JSON(200, gin.H{"Uptime": since.String()})
+	c.JSON(http.StatusOK, gin.H{"Uptime": since.String()})
 }
 
 // since returns the total uptime for the server in a
