@@ -14,7 +14,7 @@ func main() {
 	config.Init()
 	logging.Init()
 	// TODO: Read from config etc;
-	db.Init("postgresql://postgres:postgres@localhost:5432/alias?sslmode=disable")
+	db.Init("postgresql://postgres:postgres@localhost:5432/toodoo?sslmode=disable")
 	server.Init()
 
 }
