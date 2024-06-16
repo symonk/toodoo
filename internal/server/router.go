@@ -2,7 +2,7 @@ package server
 
 import "github.com/gin-gonic/gin"
 
-func NewRouter() *gin.Engine {
+func newRouter() *gin.Engine {
 	router := gin.Default()
 	return router
 }
