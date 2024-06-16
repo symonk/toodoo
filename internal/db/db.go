@@ -16,10 +16,9 @@ type Client struct {
 	*sqlx.DB
 }
 
-func Init(connectionString string) error {
+func Init(connectionString string) {
 	db := sqlx.MustConnect("postgres", connectionString)
 	client = &Client{DB: db}
-	return nil
 }
 
 func GetDB() *Client {

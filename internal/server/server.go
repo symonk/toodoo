@@ -26,7 +26,7 @@ func Init() {
 	// notify channel for exiting.
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			logging.Logger.Error("webserver error %w", err)
+			logging.Logger.Error("webserver error %s", err.Error())
 		}
 
 	}()
