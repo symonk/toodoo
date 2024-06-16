@@ -2,6 +2,7 @@ package controller_test
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -31,23 +32,26 @@ func TestMain(m *testing.M) {
 		testcontainers.WithWaitStrategy(
 			wait.ForLog("database system is ready to accept connections").
 				WithOccurrence(2).
-				WithStartupTimeout(5*time.Second)),
+				WithStartupTimeout(20*time.Second)),
 	)
 	if err != nil {
-		panic("unable to start postgres test container")
+		panic(fmt.Errorf("unable to start postgres test container %s", err.Error()))
 	}
 	defer func() {
 		if err := pgres.Terminate(ctx); err != nil {
 			panic("could not stop the pgres container after tests!")
 		}
 	}()
-	db.Init("postgresql://postgres:postgres@localhost:5432/toodoo?sslmode=disable")
+	connStr, err := pgres.ConnectionString(ctx, "sslmode=disable")
+	if err != nil {
+		panic(fmt.Errorf("err with connection string %s", err.Error()))
+	}
+	db.Init(connStr)
 	logging.Init()
 	os.Exit(m.Run())
 }
 
 func TestFetchAllTasksSuccess(t *testing.T) {
-	t.Parallel()
 	router := server.NewRouter()
 	recorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/v1/task", nil)
