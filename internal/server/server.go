@@ -7,11 +7,14 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/symonk/toodoo/internal/logging"
 )
 
 // Init initializes the http server with the gin router
 // as the handler
 func Init() {
+	logging.Logger.Info("Toodoo backend API server running.")
 	ctx, stopper := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stopper()
 	router := NewRouter()
@@ -25,7 +28,6 @@ func Init() {
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			// TODO: Implment logging slog and fatal here
-			panic(err)
 		}
 
 	}()
