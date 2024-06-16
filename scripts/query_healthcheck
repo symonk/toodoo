@@ -1,0 +1,2 @@
+#!/bin/bash
+# Utility script for curling the healthcheck endpoint and writing the response to stdout
