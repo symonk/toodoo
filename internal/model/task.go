@@ -33,9 +33,8 @@ func NewTask() *TaskModel {
 // RetrieveTasks fetches all tasks from the database.
 func (t TaskModel) RetrieveTasks(ctx context.Context) ([]TaskModel, error) {
 	tasks := make([]TaskModel, 0)
-	db := db.GetDB()
-	query := db.Rebind(fetchAllTasks)
-	if err := db.SelectContext(ctx, &tasks, query); err != nil {
+	client := db.GetDB()
+	if err := client.SelectContext(ctx, &tasks, db.RebindQuery(client.DB, fetchAllTasks)); err != nil {
 		return tasks, err
 	}
 	return tasks, nil
@@ -44,9 +43,8 @@ func (t TaskModel) RetrieveTasks(ctx context.Context) ([]TaskModel, error) {
 // RetrieveTaskById returns the task with the given ID.
 func (t TaskModel) RetrieveTaskByID(ctx context.Context, id int) (TaskModel, error) {
 	var task TaskModel
-	db := db.GetDB()
-	query := db.Rebind(fetchTask)
-	if err := db.GetContext(ctx, &task, query, id); err != nil {
+	client := db.GetDB()
+	if err := client.GetContext(ctx, &task, db.RebindQuery(client.DB, fetchTask), id); err != nil {
 		return task, err
 	}
 	return task, nil
