@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"os/signal"
 	"syscall"
@@ -27,7 +26,7 @@ func Init() {
 	// notify channel for exiting.
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			// TODO: Implment logging slog and fatal here
+			logging.Logger.Error("webserver error %w", err)
 		}
 
 	}()
@@ -40,5 +39,5 @@ func Init() {
 		// TODO: also slog/fatal
 		panic(err)
 	}
-	fmt.Println("Server gracefully shutdown.")
+	logging.Logger.Info("Server gracefully shutdown.")
 }
