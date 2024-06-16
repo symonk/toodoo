@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os/signal"
 	"syscall"
@@ -26,7 +27,7 @@ func Init() {
 	// notify channel for exiting.
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			logging.Logger.Error("webserver error %s", err.Error())
+			logging.Logger.Error(fmt.Sprintf("webserver error %s", err.Error()))
 		}
 
 	}()
