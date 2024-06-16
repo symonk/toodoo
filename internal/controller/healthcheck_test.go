@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/symonk/toodoo/internal/server"
+	"github.com/symonk/toodoo/cmd/server"
 )
 
 func TestHealtchCheckStatus(t *testing.T) {

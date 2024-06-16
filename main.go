@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/symonk/toodoo/cmd/server"
 	"github.com/symonk/toodoo/internal/config"
 	"github.com/symonk/toodoo/internal/db"
 	"github.com/symonk/toodoo/internal/logging"
-	"github.com/symonk/toodoo/internal/server"
 )
 
 // main is the core entry point to the backend API.
