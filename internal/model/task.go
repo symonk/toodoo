@@ -9,7 +9,7 @@ import (
 
 const (
 	fetchAllTasks = "SELECT * FROM task;"
-	fetchTask     = "SELECT * FROM task WHERE id = $1 LIMIT 1"
+	fetchTask     = "SELECT * FROM task WHERE id = ? LIMIT 1"
 )
 
 // TaskModel is the core encapsulation of a task
