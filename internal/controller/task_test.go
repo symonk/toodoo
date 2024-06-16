@@ -58,3 +58,19 @@ func TestFetchAllTasksSuccess(t *testing.T) {
 	router.ServeHTTP(recorder, request)
 	assert.Equal(t, 200, recorder.Code)
 }
+
+func TestFetchASingleTask(t *testing.T) {
+	router := server.NewRouter()
+	recorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/v1/task/1", nil)
+	router.ServeHTTP(recorder, request)
+	assert.Equal(t, 200, recorder.Code)
+}
+
+func TestFetchWithInvalidTaskID(t *testing.T) {
+	router := server.NewRouter()
+	recorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/v1/task/1337", nil)
+	router.ServeHTTP(recorder, request)
+	assert.Equal(t, 500, recorder.Code)
+}
