@@ -54,3 +54,17 @@ func (t TaskHandler) ViewByID(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, task)
 }
+
+// @BasePage /api/v1
+// Retrieve godoc
+// @Summary Creates a new task
+// @Schemes
+// @Description Creates a new task
+// @Tags tasks
+// @Produce json
+// @Accept json
+// @Success 201 {object} model.TaskModel
+// @Router /tasks [post]
+func (t TaskHandler) Create(c *gin.Context) {
+
+}

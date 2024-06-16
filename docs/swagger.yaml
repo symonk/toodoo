@@ -13,6 +13,21 @@ definitions:
 info:
   contact: {}
 paths:
+  /tasks:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new task
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.TaskModel'
+      summary: Creates a new task
+      tags:
+      - tasks
   /tasks/:
     get:
       description: Retrieves all the tasks

@@ -15,6 +15,29 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/tasks": {
+            "post": {
+                "description": "Creates a new task",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tasks"
+                ],
+                "summary": "Creates a new task",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.TaskModel"
+                        }
+                    }
+                }
+            }
+        },
         "/tasks/": {
             "get": {
                 "description": "Retrieves all the tasks",
