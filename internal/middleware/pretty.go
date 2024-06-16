@@ -17,6 +17,7 @@ func (bw bodyWriter) Write(b []byte) (int, error) {
 }
 
 func JsonIndenter(c *gin.Context) {
+	// TODO: This does not propagate errors back for aborts.
 	bw := &bodyWriter{buf: &bytes.Buffer{}, ResponseWriter: c.Writer}
 	c.Writer = bw
 	c.Next()
@@ -26,4 +27,5 @@ func JsonIndenter(c *gin.Context) {
 	new, _ := json.MarshalIndent(obj, "", "    ")
 	// If the response has any json; pretty print it.
 	bw.ResponseWriter.WriteString(string(new))
+	bw.buf.Reset()
 }
