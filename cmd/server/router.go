@@ -25,6 +25,7 @@ func NewRouter() *gin.Engine {
 	// Manage API versioned routes
 	apiV1 := router.Group("/api/v1")
 	apiV1.GET("/task", taskHandler.View)
+	apiV1.GET("/task/:id", taskHandler.ViewByID)
 
 	// Swagger
 	docs.SwaggerInfo.BasePath = "/api/v1"

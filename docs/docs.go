@@ -29,7 +29,30 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Task"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.TaskModel"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tasks/id": {
+            "get": {
+                "description": "Retrieves all the tasks",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tasks"
+                ],
+                "summary": "Fetch all tasks",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.TaskModel"
                         }
                     }
                 }
@@ -37,8 +60,22 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "model.Task": {
-            "type": "object"
+        "model.TaskModel": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "recurring": {
+                    "type": "boolean"
+                },
+                "schedule": {
+                    "type": "string"
+                }
+            }
         }
     }
 }`

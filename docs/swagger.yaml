@@ -1,5 +1,14 @@
 definitions:
-  model.Task:
+  model.TaskModel:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      recurring:
+        type: boolean
+      schedule:
+        type: string
     type: object
 info:
   contact: {}
@@ -13,7 +22,22 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.Task'
+            items:
+              $ref: '#/definitions/model.TaskModel'
+            type: array
+      summary: Fetch all tasks
+      tags:
+      - tasks
+  /tasks/id:
+    get:
+      description: Retrieves all the tasks
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.TaskModel'
       summary: Fetch all tasks
       tags:
       - tasks

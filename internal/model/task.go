@@ -9,7 +9,7 @@ import (
 
 const (
 	fetchAllTasks = "SELECT * FROM task;"
-	fetchTask     = "SELECT * FROM task WHERE id = ? LIMIT 1"
+	fetchTask     = "SELECT * FROM task WHERE id = $1 LIMIT 1"
 )
 
 // TaskModel is the core encapsulation of a task
@@ -34,8 +34,20 @@ func NewTask() *TaskModel {
 func (t TaskModel) RetrieveTasks(ctx context.Context) ([]TaskModel, error) {
 	tasks := make([]TaskModel, 0)
 	db := db.GetDB()
-	if err := db.SelectContext(ctx, &tasks, fetchAllTasks); err != nil {
+	query := db.Rebind(fetchAllTasks)
+	if err := db.SelectContext(ctx, &tasks, query); err != nil {
 		return tasks, err
 	}
 	return tasks, nil
+}
+
+// RetrieveTaskById returns the task with the given ID.
+func (t TaskModel) RetrieveTaskByID(ctx context.Context, id int) (TaskModel, error) {
+	var task TaskModel
+	db := db.GetDB()
+	query := db.Rebind(fetchTask)
+	if err := db.GetContext(ctx, &task, query, id); err != nil {
+		return task, err
+	}
+	return task, nil
 }
