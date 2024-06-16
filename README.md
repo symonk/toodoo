@@ -1,4 +1,4 @@
-<img src="https://github.com/symonk/toodoo/blob/main/.github/images/logo.png" border="1" width="275" height="275"/>
+<img src="https://github.com/symonk/toodoo/blob/main/.github/images/logo.png" border="1" width="550" height="275"/>
 
 [![GoDoc](https://pkg.go.dev/badge/github.com/symonk/toodoo)](https://pkg.go.dev/github.com/symonk/toodoo)
 [![Build Status](https://github.com/symonk/toodoo/actions/workflows/go_test.yml/badge.svg)](https://github.com/symonk/toodoo/actions/workflows/go_test.yml)
