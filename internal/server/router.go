@@ -12,13 +12,16 @@ func NewRouter() *gin.Engine {
 	router.Use(gin.Recovery())
 	router.Use(sloggin.New(logging.Logger))
 
-	// Register default (unprotected, non versioned) routes
+	// Handlers
 	healthCheckHandler := controller.HealthCheckHandler{}
+	taskHandler := controller.TaskHandler{}
+
+	// Register default (unprotected, non versioned) routes
 	router.GET("/healthcheck", healthCheckHandler.Status)
 
 	// Manage API versioned routes
-	apiV1 := router.Group("/v1")
-	apiV1.GET("/placeholder", func(c *gin.Context) {})
+	apiV1 := router.Group("/api/v1")
+	apiV1.GET("/task", taskHandler.View)
 
 	return router
 }

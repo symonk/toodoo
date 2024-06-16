@@ -8,8 +8,6 @@ import (
 
 var started = time.Now()
 
-type Handler struct{}
-
 type HealthCheckHandler struct {
 }
 
