@@ -5,7 +5,7 @@ import (
 	"github.com/symonk/toodoo/internal/controller"
 )
 
-func newRouter() *gin.Engine {
+func NewRouter() *gin.Engine {
 	router := gin.Default()
 
 	// Register default (unprotected, non versioned) routes

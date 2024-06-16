@@ -14,7 +14,7 @@ import (
 func Init() {
 	ctx, stopper := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stopper()
-	router := newRouter()
+	router := NewRouter()
 	server := &http.Server{
 		// TODO: implement config etc.
 		Addr:    ":9999",
