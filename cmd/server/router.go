@@ -8,12 +8,14 @@ import (
 	docs "github.com/symonk/toodoo/docs"
 	"github.com/symonk/toodoo/internal/controller"
 	"github.com/symonk/toodoo/internal/logging"
+	"github.com/symonk/toodoo/internal/middleware"
 )
 
 func NewRouter() *gin.Engine {
 	router := gin.New()
 	router.Use(gin.Recovery())
 	router.Use(sloggin.New(logging.Logger))
+	router.Use(middleware.JsonIndenter)
 
 	// Handlers
 	healthCheckHandler := controller.HealthCheckHandler{}
