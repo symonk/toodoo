@@ -13,7 +13,8 @@ import (
 func main() {
 	config.Init()
 	logging.Init()
-	db.Init("")
+	// TODO: Read from config etc;
+	db.Init("postgresql://postgres:postgres@localhost:5432/alias?sslmode=disable")
 	server.Init()
 
 }
