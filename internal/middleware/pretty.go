@@ -25,8 +25,13 @@ func JsonIndenter(c *gin.Context) {
 	obj := make(map[string]any)
 	json.Unmarshal([]byte(old), &obj)
 	new, err := json.MarshalIndent(obj, "", "    ")
-	_ = err
+	if err != nil {
+		c.Abort()
+	}
 	// If the response has any json; pretty print it.
-	_, _ = bw.ResponseWriter.WriteString(string(new))
+	_, err = bw.ResponseWriter.WriteString(string(new))
+	if err != nil {
+		c.Abort()
+	}
 	bw.buf.Reset()
 }
