@@ -28,6 +28,7 @@ func NewRouter() *gin.Engine {
 	apiV1 := router.Group("/api/v1")
 	apiV1.GET("/task", taskHandler.View)
 	apiV1.GET("/task/:id", taskHandler.ViewByID)
+	apiV1.POST("/task", taskHandler.Create)
 
 	// Swagger
 	docs.SwaggerInfo.BasePath = "/api/v1"

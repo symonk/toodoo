@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -21,7 +22,7 @@ var taskModel = new(model.TaskModel)
 // @Tags tasks
 // @Produce json
 // @Success 200 {object} []model.TaskModel
-// @Router /tasks/ [get]
+// @Router /task [get]
 func (t TaskHandler) View(c *gin.Context) {
 	tasks, err := taskModel.RetrieveTasks(c.Request.Context())
 	if err != nil {
@@ -41,7 +42,7 @@ func (t TaskHandler) View(c *gin.Context) {
 // @Tags tasks
 // @Produce json
 // @Success 200 {object} model.TaskModel
-// @Router /tasks/id [get]
+// @Router /task/id [get]
 func (t TaskHandler) ViewByID(c *gin.Context) {
 	id := c.Param("id")
 	asInt, err := strconv.Atoi(id)
@@ -64,7 +65,18 @@ func (t TaskHandler) ViewByID(c *gin.Context) {
 // @Produce json
 // @Accept json
 // @Success 201 {object} model.TaskModel
-// @Router /tasks [post]
+// @Router /task [post]
 func (t TaskHandler) Create(c *gin.Context) {
-
+	var newTask model.TaskModel
+	if err := c.ShouldBind(&newTask); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": fmt.Sprintf("The task creation payload was not valid: %s", err.Error())})
+		return
+	}
+	serverSideTask, err := taskModel.Create(c.Request.Context(), newTask)
+	if err != nil {
+		// TODO: hide error, only debugging for now
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusCreated, serverSideTask)
 }

@@ -12,4 +12,4 @@ CREATE TABLE IF NOT EXISTS task (
 INSERT INTO task
     (name, description, recurring, schedule)
     VALUES
-    ('foo', 'bar', false, '2024-01-01')
+    ('foo', 'bar', false, '0001-01-01T00:00:00Z')
