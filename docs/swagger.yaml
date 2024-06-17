@@ -3,6 +3,8 @@ definitions:
     properties:
       description:
         type: string
+      id:
+        type: integer
       name:
         type: string
       recurring:
@@ -13,22 +15,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /tasks:
-    post:
-      consumes:
-      - application/json
-      description: Creates a new task
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            $ref: '#/definitions/model.TaskModel'
-      summary: Creates a new task
-      tags:
-      - tasks
-  /tasks/:
+  /task:
     get:
       description: Retrieves all the tasks
       produces:
@@ -43,7 +30,21 @@ paths:
       summary: Fetch all tasks
       tags:
       - tasks
-  /tasks/id:
+    post:
+      consumes:
+      - application/json
+      description: Creates a new task
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.TaskModel'
+      summary: Creates a new task
+      tags:
+      - tasks
+  /task/id:
     get:
       description: Retrieves all the tasks
       produces:

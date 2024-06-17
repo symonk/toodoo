@@ -15,7 +15,28 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/tasks": {
+        "/task": {
+            "get": {
+                "description": "Retrieves all the tasks",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "tasks"
+                ],
+                "summary": "Fetch all tasks",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.TaskModel"
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "Creates a new task",
                 "consumes": [
@@ -38,30 +59,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/tasks/": {
-            "get": {
-                "description": "Retrieves all the tasks",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "tasks"
-                ],
-                "summary": "Fetch all tasks",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/model.TaskModel"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/tasks/id": {
+        "/task/id": {
             "get": {
                 "description": "Retrieves all the tasks",
                 "produces": [
@@ -88,6 +86,9 @@ const docTemplate = `{
             "properties": {
                 "description": {
                     "type": "string"
+                },
+                "id": {
+                    "type": "integer"
                 },
                 "name": {
                     "type": "string"
