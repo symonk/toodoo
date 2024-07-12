@@ -4,10 +4,12 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
+	"github.com/joho/godotenv"
 	"github.com/symonk/toodoo/internal/logging"
 )
 
@@ -15,6 +17,12 @@ import (
 // as the handler
 func Init() {
 	logging.Logger.Info("Toodoo backend API server running.")
+	err := godotenv.Load()
+	if err != nil {
+		logging.Logger.Error("unable to load environment configurations.")
+		os.Exit(1)
+	}
+	logging.Logger.Info("successfully loaded environment config.")
 	ctx, stopper := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
 	defer stopper()
 	router := NewRouter()
